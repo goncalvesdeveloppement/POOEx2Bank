@@ -44,4 +44,10 @@ public class Customer {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public  Customer(String lastName, String firstName, String email) {
+		this.setLastName(lastName);
+		this.setFirstName(firstName);
+		this.setEmail(email);
+	}
 }

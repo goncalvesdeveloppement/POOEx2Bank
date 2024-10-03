@@ -3,6 +3,7 @@ package fr.fms.business;
 import java.util.ArrayList;
 
 import fr.fms.entities.Account;
+import fr.fms.entities.Customer;
 
 public interface Business {
 	public void CreateAccount(int customerID, boolean isSavingAccount);
@@ -14,4 +15,5 @@ public interface Business {
 	public Account GetAccountByID(int accountID);
 	public void Transfer(int senderAccountID, int destAccountID, double amount);
 	public boolean Withdraw(int accountID, double amount);
+	public Customer GetCustomerByID(int customerID);
 }

@@ -90,18 +90,33 @@ public class BusinessImpl implements Business {
 
 		throw new RuntimeException("Aucun compte pour cet ID");
 	}
-	
+
+	public Customer GetCustomerByID(int customerID) {
+		for (Customer customer : customerList) {
+			if (customer.getCustomerID() == customerID) {
+				return customer;
+			}
+		}
+		return null;
+		// throw new RuntimeException("Aucun compte pour cet ID");
+	}
 
 	@Override
 	public void CreateAccount(int customerID, boolean isSavingAccount) {
-		
-
+		Customer temp = GetCustomerByID(customerID);
+		if(temp != null){
+			Account newAccount = new Account();
+			newAccount.setOwner(temp);
+			accountList.add(newAccount);
+		} else {
+			System.out.println("Veuiller créer un Client!");
+		}
 	}
 
 	@Override
 	public void CreateCustomer(String lastName, String firstName, String email) {
-		// TODO Auto-generated method stub
-
+		Customer newCustomer = new Customer(lastName, firstName, email);
+		customerList.add(newCustomer);
 	}
 
 	@Override
@@ -114,7 +129,6 @@ public class BusinessImpl implements Business {
 	@Override
 	public ArrayList<Account> GetAllAccounts() {
 		return getAccountList();
-
 	}
 
 	@Override
