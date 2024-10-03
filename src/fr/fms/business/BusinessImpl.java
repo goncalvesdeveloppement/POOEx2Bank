@@ -16,10 +16,30 @@ public class BusinessImpl implements Business {
 	// objets en question
 	private static ArrayList<Account> accountList = new ArrayList<Account>();
 	private static ArrayList<Customer> customerList = new ArrayList<Customer>();
+	
+	//accesseurs arraylist
+	public static ArrayList<Account> getAccountList() {
+		return accountList;
+	}
+	
+	public static ArrayList<Customer> getCustomerList() {
+		return customerList;
+	}
+	
+	
+	public static void setAccountList(ArrayList<Account> accountList) {
+		BusinessImpl.accountList = accountList;
+	}
+
+	
+
+	public static void setCustomerList(ArrayList<Customer> customerList) {
+		BusinessImpl.customerList = customerList;
+	}
 
 	// Virement (retrait + versement)
 	public void Transfer(int senderAccountID, int destAccountID, double amount) {
-		if (Withdraw(senderAccountID, amount)) {
+		if (Withdraw(senderAccountID, amount)|| (senderAccountID != destAccountID)) {
 			Deposit(destAccountID, amount);
 		} else
 			System.out.println("Le virement ne peux être effectué. Fonds insuffisants");
@@ -74,7 +94,7 @@ public class BusinessImpl implements Business {
 
 	@Override
 	public void CreateAccount(int customerID, boolean isSavingAccount) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -85,20 +105,25 @@ public class BusinessImpl implements Business {
 	}
 
 	@Override
-	public void DisplayAccountBalance(int accountID) {
-		// TODO Auto-generated method stub
+	public double GetAccountBalance(int accountID) {
+		Account tmpAccount = GetAccountByID(accountID);
+		return tmpAccount.getBalance();
 
 	}
 
 	@Override
-	public void DisplayAllAccounts() {
-		// TODO Auto-generated method stub
+	public ArrayList<Account> GetAllAccounts() {
+		return getAccountList();
 
 	}
 
 	@Override
-	public void DisplayCustomerAccounts(int customerID) {
-		// TODO Auto-generated method stub
-
+	public ArrayList<Account> GetCustomerAccounts(int customerID) {
+		ArrayList <Account> emptyList = new ArrayList<Account>();
+		for (Account account : accountList) {
+			if (account.getOwner().getCustomerID()  == customerID) 
+				emptyList.add(account);
+			}
+		return emptyList;
 	}
 }

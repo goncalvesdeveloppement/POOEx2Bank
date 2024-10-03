@@ -6,8 +6,10 @@ public class Account {
 	private int accountID;
 	private Double balance;
 	private Date creationDate;
+	private Customer owner;
 
 	/* ---------- CONSTRUCTORS ---------- */
+
 
 	public Account() {
 		this(0);
@@ -46,6 +48,14 @@ public class Account {
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
+	}
+	
+	public Customer getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Customer owner) {
+		this.owner = owner;
 	}
 
 	// Adds/substracts to balance the amount
