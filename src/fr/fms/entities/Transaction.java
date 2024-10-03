@@ -1,8 +1,10 @@
 package fr.fms.entities;
 
+import java.util.Date;
+
 public class Transaction {
 	private int transactionID;
-	private String transactionDate; // "AAAA-MM-JJ";
+	private Date transactionDate; // "AAAA-MM-JJ";
 	private double amount;
 	
 	private Account targetAccount;
@@ -21,7 +23,7 @@ public class Transaction {
 	public Transaction(int transactionID, double amount) {
 		this.setTransactionID(transactionID);
 		this.setAmount(amount);
-		this.setTransactionDate("2024-10-02");
+		this.setTransactionDate(new Date());
 	}
 	
 	/* ---------- GETTERS/SETTERS ---------- */
@@ -34,11 +36,11 @@ public class Transaction {
 		this.transactionID = transactionID;
 	}
 
-	public String getTransactionDate() {
+	public Date getTransactionDate() {
 		return transactionDate;
 	}
 
-	public void setTransactionDate(String transactionDate) {
+	public void setTransactionDate(Date transactionDate) {
 		this.transactionDate = transactionDate;
 	}
 
