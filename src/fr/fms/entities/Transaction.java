@@ -59,4 +59,8 @@ public class Transaction {
 	public void setTargetAccount(Account targetAccount) {
 		this.targetAccount = new Account(targetAccount.getBalance());
 	}
+
+	public String toString() {
+		return "Transaction [[transactionID = " + this.getTransactionID() + " la transaction a été effectuée le : "+ transactionDate + " le montant est de : " + amount;//
+	}
 }

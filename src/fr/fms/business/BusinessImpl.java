@@ -9,6 +9,7 @@ import java.util.HashMap;
 import fr.fms.entities.Account;
 import fr.fms.entities.CurrentAccount;
 import fr.fms.entities.SavingAccount;
+import fr.fms.entities.Transaction;
 import fr.fms.entities.Customer;
 
 public class BusinessImpl implements Business {
@@ -17,14 +18,19 @@ public class BusinessImpl implements Business {
 	// objets en question
 	private static ArrayList<Account> accountList = new ArrayList<Account>();
 	private static ArrayList<Customer> customerList = new ArrayList<Customer>();
+	private static ArrayList<Transaction> transactionsList = new ArrayList<Transaction>();
 
 	// accesseurs arraylist
-	public static ArrayList<Account> getAccountList() {
+	public ArrayList<Account> getAccountList() {
 		return accountList;
 	}
 
 	public static ArrayList<Customer> getCustomerList() {
 		return customerList;
+	}
+
+	public static ArrayList<Transaction> getTransactionsList(){
+		return transactionsList;
 	}
 
 	public static void setAccountList(ArrayList<Account> accountList) {
@@ -149,4 +155,15 @@ public class BusinessImpl implements Business {
 		}
 		return emptyList;
 	}
+
+	public ArrayList<Transaction> GetAccountTransaction(int accountID) {
+		ArrayList<Transaction> emptyList = new ArrayList<Transaction>();
+		for (Transaction transaction : getTransactionsList()) {
+			if (transaction.getTargetAccount().getAccountID() == accountID)
+				emptyList.add(transaction);
+		}
+		return emptyList;
+	}
+
+	
 }

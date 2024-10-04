@@ -1,7 +1,9 @@
 package fr.fms.application;
 
+import fr.fms.business.Business;
 import fr.fms.business.BusinessImpl;
 import fr.fms.entities.CurrentAccount;
+import fr.fms.entities.Transaction;
 
 public class BankApp {
 	public static BusinessImpl business = new BusinessImpl();
@@ -39,6 +41,10 @@ public class BankApp {
 		
 		//historique des transactions
 		
-		
+		System.out.println(business.getAccountList().get(0));
+
+		for (Transaction transcation : BusinessImpl.getTransactionsList()) { 
+			System.out.println(transcation);
+		}
 	}
 }

@@ -55,8 +55,8 @@ public class Customer {
 		return instanceCount;
 	}
 
-	public void setInstanceCount(int instanceCount) {
-		this.instanceCount = instanceCount;
+	public void setInstanceCount(int instanceCount_) {
+		instanceCount = instanceCount_;
 	}
 	
 	public String toString() {

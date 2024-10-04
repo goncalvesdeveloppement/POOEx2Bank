@@ -2,6 +2,9 @@ package fr.fms.entities;
 
 import java.util.Date;
 
+import fr.fms.application.BankApp;
+import fr.fms.business.BusinessImpl;
+
 public class Account {
 	private int accountID;
 	private Double balance;
@@ -61,15 +64,15 @@ public class Account {
 		return instanceCount;
 	}
 
-	public void setInstanceCount(int instanceCount) {
-		this.instanceCount = instanceCount;
+	public void setInstanceCount(int instanceCount_) {
+		instanceCount = instanceCount_;
 	}
 
 	// Adds/substracts to balance the amount
-	public Transaction adjustBalance(double amount) {
+	public void adjustBalance(double amount) {
 		this.setBalance(this.getBalance() + amount);
-		return new Transaction(0, amount);
-	}
+		 BankApp.business.getTransactionsList().add (new Transaction(0, amount));
+	} 
 	
 	public String toString() {
 		return "Account [[accountID = " + this.getAccountID() + "][balance = " + this.getBalance() + "][owner = " + this.getOwner() + "][creationDate = '" + this.getCreationDate() + "']]";
