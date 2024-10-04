@@ -4,11 +4,17 @@ public class Customer {
 	private int customerID;
 	private String lastName, firstName;
 	private String email;
+	private static int instanceCount = 0;
 
 	/* ---------- CONSTRUCTORS ---------- */
 
-	public Customer(int customerID) {
-		this.customerID = customerID;
+	public Customer(String lastName, String firstName, String email) {
+		setInstanceCount(instanceCount + 1);
+		this.setCustomerID(this.getInstanceCount());
+		this.setLastName(lastName);
+		this.setFirstName(firstName);
+		this.setEmail(email);
+		this.setCustomerID(0); // Changer en fonction du nb d'instances
 	}
 
 	/* ---------- GETTERS/SETTERS ---------- */
@@ -45,9 +51,15 @@ public class Customer {
 		this.email = email;
 	}
 
-	public  Customer(String lastName, String firstName, String email) {
-		this.setLastName(lastName);
-		this.setFirstName(firstName);
-		this.setEmail(email);
+	public int getInstanceCount() {
+		return instanceCount;
+	}
+
+	public void setInstanceCount(int instanceCount) {
+		this.instanceCount = instanceCount;
+	}
+	
+	public String toString() {
+		return "Customer [[customerID = " + this.getCustomerID() + "][lastName = '" + this.getLastName() + "'][firstName = '" + this.getFirstName() + "'][email = '" + this.getEmail() + "']]";
 	}
 }

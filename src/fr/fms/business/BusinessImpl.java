@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import fr.fms.entities.Account;
 import fr.fms.entities.CurrentAccount;
+import fr.fms.entities.SavingAccount;
 import fr.fms.entities.Customer;
 
 public class BusinessImpl implements Business {
@@ -16,128 +17,136 @@ public class BusinessImpl implements Business {
 	// objets en question
 	private static ArrayList<Account> accountList = new ArrayList<Account>();
 	private static ArrayList<Customer> customerList = new ArrayList<Customer>();
-	
-	//accesseurs arraylist
+
+	// accesseurs arraylist
 	public static ArrayList<Account> getAccountList() {
 		return accountList;
 	}
-	
+
 	public static ArrayList<Customer> getCustomerList() {
 		return customerList;
 	}
-	
-	
+
 	public static void setAccountList(ArrayList<Account> accountList) {
 		BusinessImpl.accountList = accountList;
 	}
-
-	
 
 	public static void setCustomerList(ArrayList<Customer> customerList) {
 		BusinessImpl.customerList = customerList;
 	}
 
 	// Virement (retrait + versement)
-	public void Transfer(int senderAccountID, int destAccountID, double amount) {
-		if (Withdraw(senderAccountID, amount)|| (senderAccountID != destAccountID)) {
-			Deposit(destAccountID, amount);
+	public String Transfer(int senderAccountID, int destAccountID, double amount) {
+		if ((senderAccountID != destAccountID)) {
+			if (Withdraw(senderAccountID, amount).equalsIgnoreCase("Retrait correctement effectué.")) {
+				Deposit(destAccountID, amount);
+				return "Virement effectué.";
+			} else
+				return "Erreur — fonds insuffisants sur le compte débiteur...";
 		} else
-			System.out.println("Le virement ne peux être effectué. Fonds insuffisants");
+			return "Erreur — les comptes débiteur et destinataire sont identiques...";
 	}
 
 	// Versement
-	public void Deposit(int accountID, double amount) {
+	public String Deposit(int accountID, double amount) {
 		Account account = GetAccountByID(accountID);
 
 		if (amount > 0) {
 			account.adjustBalance(amount);
+			return "Dépôt correctement pris en compte.";
 		} else {
-			System.out.println("Le montant doit être positif.");
+			return "Erreur — le montant à déposer doit être positif...";
 		}
 	}
 
 	// Retrait
-	public boolean Withdraw(int accountID, double amount) {
+	public String Withdraw(int accountID, double amount) {
 		Account account = GetAccountByID(accountID);
-		boolean canWithdraw = false;
 
 		if (amount > 0) {
-			if (account.getBalance() >= amount)
-				canWithdraw = true;
-			else if (account instanceof CurrentAccount) {
-				if (((CurrentAccount) (account)).isAllowedOverdraft()) {
-					canWithdraw = true;
-				} else
-					System.out.println("Fonds insuffisants sur le compte.");
-			}
-
-			if (canWithdraw)
+			if (account.getBalance() >= amount) {
 				account.adjustBalance(-amount);
+				return "Retrait correctement effectué.";
+			} else if (account instanceof CurrentAccount) {
+				if (((CurrentAccount) (account)).isAllowedOverdraft()) {
+					account.adjustBalance(-amount);
+					return "Retrait correctement effectué.";
+				}
+				else
+					return "Erreur — vous avez dépassé vos capacités de retrait...";
+			}
+			else			
+				return "Erreur — mauvais type de compte...";
 		} else {
-			System.out.println("Le montant doit être positif.");
+			return "Erreur — le montant à retirer doit être positif...";
 		}
-
-		return canWithdraw;
 	}
 
 	// On récupère le compte en fonction de l'ID du customer
 	public Account GetAccountByID(int accountID) {
-		for (Account account : accountList) {
+		for (Account account : getAccountList()) {
 			if (account.getAccountID() == accountID) {
 				return account;
 			}
 		}
 
-		throw new RuntimeException("Aucun compte pour cet ID");
+		return null;
 	}
 
 	public Customer GetCustomerByID(int customerID) {
-		for (Customer customer : customerList) {
+		for (Customer customer : getCustomerList()) {
 			if (customer.getCustomerID() == customerID) {
 				return customer;
 			}
 		}
+
 		return null;
-		// throw new RuntimeException("Aucun compte pour cet ID");
 	}
 
 	@Override
-	public void CreateAccount(int customerID, boolean isSavingAccount) {
+	public String CreateAccount(int customerID, boolean isSavingAccount) {
 		Customer temp = GetCustomerByID(customerID);
-		if(temp != null){
-			Account newAccount = new Account();
+		if (temp != null) {
+			Account newAccount;
+
+			if (isSavingAccount)
+				newAccount = new SavingAccount(0, 10);
+			else
+				newAccount = new CurrentAccount(0, false);
+
 			newAccount.setOwner(temp);
-			accountList.add(newAccount);
+			getAccountList().add(newAccount);
+			return "OK";
 		} else {
-			System.out.println("Veuiller créer un Client!");
+			return "ERR_NO_CUSTOMER";
 		}
 	}
 
 	@Override
-	public void CreateCustomer(String lastName, String firstName, String email) {
+	public String CreateCustomer(String lastName, String firstName, String email) {
+		for (Customer customer : getCustomerList()) {
+			if (customer.getEmail().equalsIgnoreCase(email))
+				return "Erreur — l'email est déjà utilisé...";
+		}
+
 		Customer newCustomer = new Customer(lastName, firstName, email);
-		customerList.add(newCustomer);
+		getCustomerList().add(newCustomer);
+		return "Client " + lastName + " " + firstName + " ajouté !";
 	}
 
 	@Override
 	public double GetAccountBalance(int accountID) {
 		Account tmpAccount = GetAccountByID(accountID);
 		return tmpAccount.getBalance();
-
-	}
-
-	@Override
-	public ArrayList<Account> GetAllAccounts() {
-		return getAccountList();
 	}
 
 	@Override
 	public ArrayList<Account> GetCustomerAccounts(int customerID) {
-		ArrayList <Account> emptyList = new ArrayList<Account>();
-		for (Account account : accountList) {
-			if (account.getOwner().getCustomerID()  == customerID) 
+		ArrayList<Account> emptyList = new ArrayList<Account>();
+		for (Account account : getAccountList()) {
+			if (account.getOwner().getCustomerID() == customerID)
 				emptyList.add(account);
-			}
+		}
 		return emptyList;
 	}
 }

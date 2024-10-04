@@ -57,6 +57,6 @@ public class Transaction {
 	}
 
 	public void setTargetAccount(Account targetAccount) {
-		this.targetAccount = new Account(targetAccount.getAccountID(), targetAccount.getBalance());
+		this.targetAccount = new Account(targetAccount.getBalance());
 	}
 }

@@ -20,4 +20,8 @@ public class SavingAccount extends Account {
 		if (interestRate > 0 && interestRate < 100)
 			this.interestRate = interestRate;
 	}
+	
+	public String toString() {
+		return "Account [[accountID = " + this.getAccountID() + "][balance = " + this.getBalance() + "][owner = " + this.getOwner() + "][creationDate = '" + this.getCreationDate() + "'][interestRate = " + interestRate + "]]";
+	}
 }
