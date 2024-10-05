@@ -15,14 +15,14 @@
 
 ![image](https://github.com/user-attachments/assets/8bb27ca2-207a-4660-83c5-0ffb1f706e49)
 
+![image](https://github.com/user-attachments/assets/1f822e22-c9b7-4943-8b00-4b2bdf17a416)
 
 
 
 
 // ------------------------ Diagramme de classe ----------------------------------------
 
-![image](https://github.com/user-attachments/assets/d5fc35f5-facb-41f6-bb56-c42c81b4c7ff)
-
+![image](https://github.com/user-attachments/assets/58dc84ab-c349-448c-b1dd-79ac6bb74223)
 
 
 
