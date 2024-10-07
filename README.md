@@ -5,6 +5,10 @@
 
 // --------------- Diagramme de cas d'utilisation -------------------------------------------
 
+----- Diapositive à jour pour le lien d'inter dépendance pour l'Administrateur 
+![diag](https://github.com/user-attachments/assets/703e59a7-0ec1-4f26-a22d-0ca510aaa6ed)
+
+-----------------------------------------------------------------------------------------
 ![image](https://github.com/user-attachments/assets/0659c16a-a16f-41a9-bf54-eb5cf48924b1)
 
 ![image](https://github.com/user-attachments/assets/132e7714-4be6-48ac-911d-9319614acee3)
