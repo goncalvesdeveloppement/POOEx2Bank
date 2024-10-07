@@ -1,10 +1,12 @@
 package fr.fms.entities;
 
 public class Customer {
-	private int customerID;
-	private String lastName, firstName;
-	private String email;
-	private static int instanceCount = 0;
+	/* ---------- ATTRIBUTES ---------- */
+
+	private int customerID;						// L'id du client, incrémenté automatiquement
+	private String lastName, firstName;			// Les nom et prénom du client
+	private String email;						// L'adresse e-mail du client, qui doit être unique
+	private static int instanceCount = 0;		// Le nombre de clients existants (pour générer les nouveaux ID)
 
 	/* ---------- CONSTRUCTORS ---------- */
 
@@ -58,6 +60,8 @@ public class Customer {
 	public void setInstanceCount(int instanceCount_) {
 		instanceCount = instanceCount_;
 	}
+
+	/* ---------- METHODS ---------- */
 	
 	public String toString() {
 		return "Customer [[customerID = " + this.getCustomerID() + "][lastName = '" + this.getLastName() + "'][firstName = '" + this.getFirstName() + "'][email = '" + this.getEmail() + "']]";

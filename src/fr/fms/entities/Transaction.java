@@ -3,27 +3,22 @@ package fr.fms.entities;
 import java.util.Date;
 
 public class Transaction {
-	private int transactionID;
-	private Date transactionDate; // "AAAA-MM-JJ";
-	private double amount;
-	
-	private Account targetAccount;
-	private static final int UNKNOWN_TRANSACTION_ID = 0;
+	/* ---------- ATTRIBUTES ---------- */
+
+	private int transactionID;					// L'id de transaction, incrémenté automatiquement
+	private Date transactionDate; 				// La date de la transaction
+	private double amount;						// Le montant de l'opération (positif/négatif)
+	private Account targetAccount;				// Le compte ciblé par la transaction
+	private static int instanceCount = 0;		// Le nombre de transactions (pour générer les nouveaux ID)
 
 	/* ---------- CONSTRUCTORS ---------- */
 	
-	public Transaction() {
-		this(UNKNOWN_TRANSACTION_ID);
-	}
-	
-	public Transaction(int transactionID) {
-		this(transactionID, 0);
-	}
-	
-	public Transaction(int transactionID, double amount) {
-		this.setTransactionID(transactionID);
+	public Transaction(double amount, Account targetAccount) {
+		this.setTransactionID(instanceCount);
 		this.setAmount(amount);
 		this.setTransactionDate(new Date());
+		this.setTargetAccount(targetAccount);
+		setInstanceCount(getInstanceCount() + 1);
 	}
 	
 	/* ---------- GETTERS/SETTERS ---------- */
@@ -59,6 +54,16 @@ public class Transaction {
 	public void setTargetAccount(Account targetAccount) {
 		this.targetAccount = new Account(targetAccount.getBalance());
 	}
+	
+	public static int getInstanceCount() {
+		return instanceCount;
+	}
+
+	public static void setInstanceCount(int instanceCount) {
+		Transaction.instanceCount = instanceCount;
+	}
+
+	/* ---------- METHODS ---------- */
 
 	public String toString() {
 		return "Transaction [[transactionID = " + this.getTransactionID() + " la transaction a été effectuée le : "+ transactionDate + " le montant est de : " + amount;//

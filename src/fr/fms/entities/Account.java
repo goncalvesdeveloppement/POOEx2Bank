@@ -1,19 +1,16 @@
 package fr.fms.entities;
-
 import java.util.Date;
 
-import fr.fms.application.BankApp;
-import fr.fms.business.BusinessImpl;
-
 public class Account {
-	private int accountID;
-	private Double balance;
-	private Date creationDate;
-	private Customer owner;
-	private static int instanceCount = 0;
+	/* ---------- ATTRIBUTES ---------- */
+	
+	private int accountID;					// L'ID du compte, incrémenté automatiquement
+	private Double balance;					// Le solde du compte
+	private Date creationDate;				// La date de création
+	private Customer owner;					// Le client titulaire du compte
+	private static int instanceCount = 0;	// Le nombre de comptes existants (pour générer les nouveaux ID)
 
 	/* ---------- CONSTRUCTORS ---------- */
-
 
 	public Account() {
 		this(0);
@@ -68,12 +65,14 @@ public class Account {
 		instanceCount = instanceCount_;
 	}
 
-	// Adds/substracts to balance the amount
+	/* ---------- METHODS ---------- */
+
+	// Ajuste le solde via un certain montant (positif/négatif)
 	public void adjustBalance(double amount) {
 		this.setBalance(this.getBalance() + amount);
-		 BankApp.business.getTransactionsList().add (new Transaction(0, amount));
 	} 
 	
+	// Affiche correctement un objet Compte
 	public String toString() {
 		return "Account [[accountID = " + this.getAccountID() + "][balance = " + this.getBalance() + "][owner = " + this.getOwner() + "][creationDate = '" + this.getCreationDate() + "']]";
 	}
