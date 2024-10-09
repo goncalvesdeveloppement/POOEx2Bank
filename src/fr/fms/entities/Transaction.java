@@ -52,7 +52,7 @@ public class Transaction {
 	}
 
 	public void setTargetAccount(Account targetAccount) {
-		this.targetAccount = new Account(targetAccount.getBalance());
+		this.targetAccount = targetAccount;
 	}
 	
 	public static int getInstanceCount() {

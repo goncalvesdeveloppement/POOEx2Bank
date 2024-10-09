@@ -70,7 +70,7 @@ public class BusinessImpl implements Business {
 			// Si le solde est supérieur ou égal au montant
 			if (account.getBalance() >= amount) {
 				account.adjustBalance(-amount);
-				createTransaction(account, amount);
+				createTransaction(account, -amount);
 				return "Retrait correctement effectué.";
 
 			// Sinon, si c'est un compte courant...
@@ -174,12 +174,12 @@ public class BusinessImpl implements Business {
 
 	// Récupère toutes les transactions d'un compte (spécifié par son ID)
 	public ArrayList<Transaction> getAccountTransactions(int accountID) {
-		ArrayList<Transaction> emptyList = new ArrayList<Transaction>();
+		ArrayList<Transaction> tempList = new ArrayList<Transaction>();
 		for (Transaction transaction : getTransactionList()) {
 			if (transaction.getTargetAccount().getAccountID() == accountID)
-				emptyList.add(transaction);
+				tempList.add(transaction);
 		}
-		return emptyList;
+		return tempList;
 	}
 
 }
