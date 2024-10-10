@@ -4,8 +4,6 @@
 package fr.fms.business;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import fr.fms.entities.Account;
 import fr.fms.entities.CurrentAccount;
 import fr.fms.entities.SavingAccount;
@@ -13,83 +11,100 @@ import fr.fms.entities.Transaction;
 import fr.fms.entities.Customer;
 
 public class BusinessImpl implements Business {
+	/* ---------- ATTRIBUTES ---------- */
 
-	// Pour récupérer la liste des comptes qui existent, on récupère l'ID dans les
-	// objets en question
 	private static ArrayList<Account> accountList = new ArrayList<Account>();
 	private static ArrayList<Customer> customerList = new ArrayList<Customer>();
-	private static ArrayList<Transaction> transactionsList = new ArrayList<Transaction>();
+	private static ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
 
-	// accesseurs arraylist
+	/* ---------- GETTERS/SETTERS ---------- */
+
 	public ArrayList<Account> getAccountList() {
 		return accountList;
 	}
 
-	public static ArrayList<Customer> getCustomerList() {
+	public ArrayList<Customer> getCustomerList() {
 		return customerList;
 	}
 
-	public static ArrayList<Transaction> getTransactionsList(){
-		return transactionsList;
+	public ArrayList<Transaction> getTransactionList() {
+		return transactionList;
 	}
 
-	public static void setAccountList(ArrayList<Account> accountList) {
+	public void setAccountList(ArrayList<Account> accountList) {
 		BusinessImpl.accountList = accountList;
 	}
 
-	public static void setCustomerList(ArrayList<Customer> customerList) {
+	public void setCustomerList(ArrayList<Customer> customerList) {
 		BusinessImpl.customerList = customerList;
 	}
 
-	// Virement (retrait + versement)
-	public String Transfer(int senderAccountID, int destAccountID, double amount) {
-		if ((senderAccountID != destAccountID)) {
-			if (Withdraw(senderAccountID, amount).equalsIgnoreCase("Retrait correctement effectué.")) {
-				Deposit(destAccountID, amount);
+	/* ---------- METHODS ---------- */
+
+	// Réalise un virement (d'un montant positif) d'un compte expéditeur vers un compte destinataire
+	public String transfer(int senderAccountID, int destAccountID, double amount) {
+
+		// Si les comptes sont différents et le montant est positif
+		if ((senderAccountID != destAccountID) && amount > 0) {
+
+			// Si l'opération de retrait sur le compte expéditeur est possible
+			if (operation(senderAccountID, -amount).equalsIgnoreCase("Retrait correctement effectué.")) {
+				operation(destAccountID, amount);
 				return "Virement effectué.";
 			} else
 				return "Erreur — fonds insuffisants sur le compte débiteur...";
-		} else
+		} else if (amount <= 0)
+			return "Erreur — le montant doit être positif...";
+		else
 			return "Erreur — les comptes débiteur et destinataire sont identiques...";
 	}
 
-	// Versement
-	public String Deposit(int accountID, double amount) {
-		Account account = GetAccountByID(accountID);
+	// Réalise une opération élémentaire (retrait ou versement) d'une certaine valeur sur un compte donné
+	public String operation(int accountID, double amount) {
+		Account account = getAccountByID(accountID);
 
-		if (amount > 0) {
-			account.adjustBalance(amount);
-			return "Dépôt correctement pris en compte.";
-		} else {
-			return "Erreur — le montant à déposer doit être positif...";
-		}
-	}
+		// Si le montant est négatif = retrait
+		if (amount < 0) {
+			amount -= 2 * amount; // Identique à "amount = -amount"
 
-	// Retrait
-	public String Withdraw(int accountID, double amount) {
-		Account account = GetAccountByID(accountID);
-
-		if (amount > 0) {
+			// Si le solde est supérieur ou égal au montant
 			if (account.getBalance() >= amount) {
 				account.adjustBalance(-amount);
+				createTransaction(account, amount);
 				return "Retrait correctement effectué.";
+
+			// Sinon, si c'est un compte courant...
 			} else if (account instanceof CurrentAccount) {
+
+				// ...et avec un découvert autorisé
 				if (((CurrentAccount) (account)).isAllowedOverdraft()) {
 					account.adjustBalance(-amount);
 					return "Retrait correctement effectué.";
-				}
-				else
+				} else
 					return "Erreur — vous avez dépassé vos capacités de retrait...";
-			}
-			else			
-				return "Erreur — mauvais type de compte...";
+			} else
+				return "Erreur — solde insuffisant...";
+
+		// Si le montant est positif = versement
+		} else if (amount > 0) {
+			account.adjustBalance(amount);
+			createTransaction(account, amount);
+			return "Dépôt correctement pris en compte.";
 		} else {
-			return "Erreur — le montant à retirer doit être positif...";
+			return "Erreur — le montant doit être différent de zéro...";
 		}
 	}
 
-	// On récupère le compte en fonction de l'ID du customer
-	public Account GetAccountByID(int accountID) {
+	// Crée une nouvelle transaction
+	public String createTransaction(Account account, double amount) {
+		Transaction transaction = new Transaction(amount, account);
+		transactionList.add(transaction);
+
+		return "Transaction ajoutée.";
+	}
+
+	// Récupère un objet compte par son ID
+	public Account getAccountByID(int accountID) {
 		for (Account account : getAccountList()) {
 			if (account.getAccountID() == accountID) {
 				return account;
@@ -99,7 +114,8 @@ public class BusinessImpl implements Business {
 		return null;
 	}
 
-	public Customer GetCustomerByID(int customerID) {
+	// Récupère un objet client par son ID
+	public Customer getCustomerByID(int customerID) {
 		for (Customer customer : getCustomerList()) {
 			if (customer.getCustomerID() == customerID) {
 				return customer;
@@ -109,9 +125,9 @@ public class BusinessImpl implements Business {
 		return null;
 	}
 
-	@Override
-	public String CreateAccount(int customerID, boolean isSavingAccount) {
-		Customer temp = GetCustomerByID(customerID);
+	// Créer un nouveau compte pour un client (spécifié par son ID client) en indiquant s'il s'agit ou non d'un compte épargne
+	public String createAccount(int customerID, boolean isSavingAccount) {
+		Customer temp = getCustomerByID(customerID);
 		if (temp != null) {
 			Account newAccount;
 
@@ -128,8 +144,8 @@ public class BusinessImpl implements Business {
 		}
 	}
 
-	@Override
-	public String CreateCustomer(String lastName, String firstName, String email) {
+	// Créer un nouveau client avec son nom, prénom, email
+	public String createCustomer(String lastName, String firstName, String email) {
 		for (Customer customer : getCustomerList()) {
 			if (customer.getEmail().equalsIgnoreCase(email))
 				return "Erreur — l'email est déjà utilisé...";
@@ -140,14 +156,14 @@ public class BusinessImpl implements Business {
 		return "Client " + lastName + " " + firstName + " ajouté !";
 	}
 
-	@Override
-	public double GetAccountBalance(int accountID) {
-		Account tmpAccount = GetAccountByID(accountID);
+	// Récupère le solde d'un compte
+	public double getAccountBalance(int accountID) {
+		Account tmpAccount = getAccountByID(accountID);
 		return tmpAccount.getBalance();
 	}
 
-	@Override
-	public ArrayList<Account> GetCustomerAccounts(int customerID) {
+	// Récupère tous les comptes d'un client (spécifié par son ID client)
+	public ArrayList<Account> getCustomerAccounts(int customerID) {
 		ArrayList<Account> emptyList = new ArrayList<Account>();
 		for (Account account : getAccountList()) {
 			if (account.getOwner().getCustomerID() == customerID)
@@ -156,14 +172,14 @@ public class BusinessImpl implements Business {
 		return emptyList;
 	}
 
-	public ArrayList<Transaction> GetAccountTransaction(int accountID) {
+	// Récupère toutes les transactions d'un compte (spécifié par son ID)
+	public ArrayList<Transaction> getAccountTransactions(int accountID) {
 		ArrayList<Transaction> emptyList = new ArrayList<Transaction>();
-		for (Transaction transaction : getTransactionsList()) {
+		for (Transaction transaction : getTransactionList()) {
 			if (transaction.getTargetAccount().getAccountID() == accountID)
 				emptyList.add(transaction);
 		}
 		return emptyList;
 	}
 
-	
 }

@@ -1,7 +1,9 @@
 package fr.fms.entities;
 
 public class CurrentAccount extends Account {
-	private boolean allowedOverdraft;
+	/* ---------- ATTRIBUTES ---------- */
+
+	private boolean allowedOverdraft;			// Indique si un découvert est autorisé ou non
 	
 	/* ---------- CONSTRUCTORS ---------- */
 	
@@ -19,6 +21,8 @@ public class CurrentAccount extends Account {
 	public void setAllowedOverdraft(boolean allowedOverdraft) {
 		this.allowedOverdraft = allowedOverdraft;
 	}
+	
+	/* ---------- METHODS ---------- */
 	
 	public String toString() {
 		return "Account [[accountID = " + this.getAccountID() + "][balance = " + this.getBalance() + "][owner = " + this.getOwner() + "][creationDate = '" + this.getCreationDate() + "'][isAllowedDraft = " + this.isAllowedOverdraft() + "]]";

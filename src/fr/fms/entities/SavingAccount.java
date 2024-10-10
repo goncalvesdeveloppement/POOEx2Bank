@@ -1,7 +1,9 @@
 package fr.fms.entities;
 
 public class SavingAccount extends Account {
-	private double interestRate;
+	/* ---------- ATTRIBUTES ---------- */
+
+	private double interestRate; // Taux d'intérêt exprimé en pourcentage relatif
 
 	/* ---------- CONSTRUCTORS ---------- */
 
@@ -20,6 +22,8 @@ public class SavingAccount extends Account {
 		if (interestRate > 0 && interestRate < 100)
 			this.interestRate = interestRate;
 	}
+
+	/* ---------- METHODS ---------- */
 	
 	public String toString() {
 		return "Account [[accountID = " + this.getAccountID() + "][balance = " + this.getBalance() + "][owner = " + this.getOwner() + "][creationDate = '" + this.getCreationDate() + "'][interestRate = " + interestRate + "]]";
