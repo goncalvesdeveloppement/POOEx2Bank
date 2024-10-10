@@ -177,9 +177,9 @@ public class BusinessImpl implements Business {
 		ArrayList<Transaction> emptyList = new ArrayList<Transaction>();
 		for (Transaction transaction : getTransactionList()) {
 			if (transaction.getTargetAccount().getAccountID() == accountID)
-				emptyList.add(transaction);
+				tempList.add(transaction);
 		}
-		return emptyList;
+		return tempList;
 	}
 
 }
