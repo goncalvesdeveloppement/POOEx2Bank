@@ -1,0 +1,29 @@
+************ Résumé de la commande n°1 ************
+Salade — 3,50 €
+Poulet — 1,50 €
+Riz — 4,50 €
+Eau plate — 2,50 €
+Tarte maison — 1,50 €
+
+Prix de la commande n°1 : 13,50 €
+
+************ Résumé de la commande n°2 ************
+Soupe — 3,00 €
+Boeuf — 2,00 €
+Pâtes — 1,50 €
+Eau gazeuse — 2,50 €
+Mousse au chocolat — 1,00 €
+
+Prix de la commande n°2 : 10,00 €
+
+************ Résumé de la commande n°3 ************
+Quiche — 3,00 €
+Poisson — 2,00 €
+Frites — 3,00 €
+Soda — 3,50 €
+Tiramisu — 0,50 €
+
+Prix de la commande n°3 : 12,00 €
+
+
+************ TOTAL : 35,50 € ************
