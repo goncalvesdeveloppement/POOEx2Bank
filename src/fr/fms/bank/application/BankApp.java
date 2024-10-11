@@ -26,12 +26,12 @@ public class BankApp {
 	public static int MainMenu() {
 		/* ---------- AFFICHAGE ---------- */
 		System.out.println("************ Entrez le chiffre correspondant à votre choix : ************");
-		System.out.print(String.format("%-20s", "[1] Versement"));
-		System.out.print(String.format("%-20s", "[2] Retrait"));
-		System.out.println(String.format("%-20s", "[3] Virement"));
-		System.out.print(String.format("%-20s", "[4] Info solde"));
-		System.out.print(String.format("%-20s", "[5] Historique"));
-		System.out.println(String.format("%-20s", "[6] Sortir"));
+		System.out.printf("%-20s", "[1] Versement");
+		System.out.printf("%-20s", "[2] Retrait");
+		System.out.printf("%-20s", "[3] Virement");
+		System.out.printf("%-20s", "[4] Info solde");
+		System.out.printf("%-20s", "[5] Historique");
+		System.out.printf("%-20s", "[6] Sortir");
 
 		/* ---------- GESTION SAISIE ---------- */
 		int result = 0;
@@ -69,7 +69,7 @@ public class BankApp {
 			init();
 		} catch (BadCustomerException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 
 		/* ---------- SAISIE NUMÉRO DE COMPTE ---------- */
@@ -87,7 +87,7 @@ public class BankApp {
 					System.out.println("Numéro de compte invalide...");
 			} catch (BadInputAccountException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println(e.getMessage());
 			}
 		}
 
@@ -96,7 +96,7 @@ public class BankApp {
 			account = business.getAccountByID(accountID);
 		} catch (BadInputAccountException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 
 		if (account != null) {
