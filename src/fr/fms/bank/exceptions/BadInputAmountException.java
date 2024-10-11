@@ -1,4 +1,4 @@
-package fr.fms.exceptions;
+package fr.fms.bank.exceptions;
 
 public class BadInputAmountException extends Exception {
 	public BadInputAmountException(String msg) {

@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import fr.fms.bank.entities.Account;
 import fr.fms.bank.entities.Customer;
 import fr.fms.bank.entities.Transaction;
-import fr.fms.exceptions.BadCustomerException;
-import fr.fms.exceptions.BadInputAccountException;
-import fr.fms.exceptions.BadInputAmountException;
-import fr.fms.exceptions.InsufficientFundsException;
+import fr.fms.bank.exceptions.BadCustomerException;
+import fr.fms.bank.exceptions.BadInputAccountException;
+import fr.fms.bank.exceptions.BadInputAmountException;
+import fr.fms.bank.exceptions.InsufficientFundsException;
 
 public interface Business {
 	// Créer un nouveau compte pour un client (spécifié par son ID client) en indiquant s'il s'agit ou non d'un compte épargne

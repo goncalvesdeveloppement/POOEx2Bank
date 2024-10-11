@@ -1,4 +1,4 @@
-package fr.fms.exceptions;
+package fr.fms.bank.exceptions;
 
 public class BadInputAccountException extends Exception {
 	public BadInputAccountException(String msg) {

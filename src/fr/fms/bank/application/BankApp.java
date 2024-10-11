@@ -9,10 +9,10 @@ import fr.fms.bank.business.BusinessImpl;
 import fr.fms.bank.entities.Account;
 import fr.fms.bank.entities.CurrentAccount;
 import fr.fms.bank.entities.Transaction;
-import fr.fms.exceptions.BadCustomerException;
-import fr.fms.exceptions.BadInputAccountException;
-import fr.fms.exceptions.BadInputAmountException;
-import fr.fms.exceptions.InsufficientFundsException;
+import fr.fms.bank.exceptions.BadCustomerException;
+import fr.fms.bank.exceptions.BadInputAccountException;
+import fr.fms.bank.exceptions.BadInputAmountException;
+import fr.fms.bank.exceptions.InsufficientFundsException;
 
 public class BankApp {
 	/* ---------- ATTRIBUTS ---------- */

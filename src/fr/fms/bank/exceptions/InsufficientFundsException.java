@@ -1,4 +1,4 @@
-package fr.fms.exceptions;
+package fr.fms.bank.exceptions;
 
 public class InsufficientFundsException extends Exception {
 	public InsufficientFundsException(String msg) {
