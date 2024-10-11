@@ -11,11 +11,12 @@ public class Customer {
 	/* ---------- CONSTRUCTORS ---------- */
 
 	public Customer(String lastName, String firstName, String email) {
-		this.setCustomerID(this.getInstanceCount());
 		setInstanceCount(instanceCount + 1);
+		this.setCustomerID(this.getInstanceCount());
 		this.setLastName(lastName);
 		this.setFirstName(firstName);
 		this.setEmail(email);
+		this.setCustomerID(0); // Changer en fonction du nb d'instances
 	}
 
 	/* ---------- GETTERS/SETTERS ---------- */
